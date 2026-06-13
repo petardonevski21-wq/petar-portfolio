@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="mk" class="lenis">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petar Donevski Portfolio</title>
+    <link rel="icon" href="./images/favicon-16x16.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;600&family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js" ></script> 
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
+    <script src="script.js" defer></script>
+
+  
+</head>
+<body>
+
+    <!-- ПЛАТНОТО Е ИЗБРИШАНО ОД ТУКА -->
+
+    <div id="preloader">
+        <div class="preloader-text">
+            <span>Petar</span>
+            <span>Donevski</span>
+        </div>
+    </div>
+
+    <nav id="full-menu">
+        <button class="close-menu">X</button>
+        <div class="menu-left">
+            <div class="v-marquee-col col-up">
+                <div class="v-marquee-inner">
+                    <div class="v-text">Petar Donevski • </div>
+                    <div class="v-text">Petar Donevski • </div>
+                </div>
+            </div>
+            <div class="v-marquee-col col-down">
+                <div class="v-marquee-inner">
+                    <div class="v-text">Web Development • Web Design • UX&UI • </div>
+                    <div class="v-text">Web Development • Web Design • UX&UI • </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-right">
+<ul class="nav-links">
+    <li><a href="#hero" class="roll-link" id="nav-home">HOME</a><span class="num">01</span></li>
+    <li><a href="#work" class="roll-link" id="nav-work">Work</a><span class="num">02</span></li>
+    <li><a href="#contact" class="roll-link" id="nav-contact">Contact</a><span class="num">03</span></li>
+    <li><a href="#about" class="roll-link" id="nav-about">About</a><span class="num">04</span></li>
+</ul>
+        </div>
+    </nav>
+
+    <header>
+        <div class="logo" id="main-logo">Petar<span>Donevski</span></div>
+        <button class="menu-btn" id="open-btn">MENU</button>
+    </header>
+
+    <div class="sidebar-indicator">
+        <span id="hero-text">HERO</span>
+        <div class="line-ind active"></div>
+        <div class="line-ind"></div>
+        <div class="line-ind"></div>
+        <div class="line-ind"></div>
+        <div class="line-ind"></div>
+    </div>
+
+    <div class="scroll-wrapper">
+        <section class="section-two" id="section-two">
+            <div class="marquee-container">
+                <div class="marquee-content">
+                    <div class="marquee-item">Petar Donevski</div>
+                    <div class="marquee-item white">Petar Donevski</div>
+                    <div class="marquee-item">Petar Donevski</div>
+                    <div class="marquee-item white">Petar Donevski</div>
+                    <div class="marquee-item">Petar Donevski</div>
+                </div>
+            </div>
+            <div class="marquee-container">
+                <div class="marquee-content reverse">
+                    <div class="marquee-item white">Web Developer</div>
+                    <div class="marquee-item">Web Design</div>
+                    <div class="marquee-item white">Web Developer</div>
+                    <div class="marquee-item">Web Design</div>
+                    <div class="marquee-item white">Web Developer</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="hero-section" id="hero">
+            <img src="./sliki/jas2.png" alt="Petar Donevski" class="hero-image">
+            <div class="scroll-down">
+                <div class="scroll-icon"><div class="scroll-dot"></div></div>
+                v<br>v
+            </div>
+            <h1 class="reveal-text">DONEVSKI</h1>
+        </section>  
+    </div>
+
+    <section class="section-three" id="section-three">
+        <div class="centered-content" id="trigger-content">
+            <div class="small-caps-title">About Me</div>
+            <p class="main-description">
+                <span class="desc-reveal-line"><span class="desc-reveal-inner">I work across frontend and backend, turning</span><span class="desc-reveal-block"></span></span><br>
+                <span class="desc-reveal-line"><span class="desc-reveal-inner">ideas into fully functional digital products.</span><span class="desc-reveal-block"></span></span><br>
+                <span class="desc-reveal-line"><span class="desc-reveal-inner">From intuitive interfaces to powerful backend</span><span class="desc-reveal-block"></span></span><br>
+                <span class="desc-reveal-line"><span class="desc-reveal-inner">systems, I build experiences that are clean,</span><span class="desc-reveal-block"></span></span><br>
+                <span class="desc-reveal-line"><span class="desc-reveal-inner">scalable, and purposeful.</span><span class="desc-reveal-block"></span></span>
+            </p>
+        </div>
+    </section>
+
+    <section class="section-four" id="section-four">
+        <div class="skills-bg-lines"></div>
+        
+        <div class="skills-title-wrapper">
+            <h2>My skills</h2>
+        </div>
+
+        <div class="horizontal-scroll-track" id="skills-track">
+            <div class="main-connector-line"></div>
+
+            <div class="skill-card card-down">
+                <div class="skill-header">
+                    <h3>HTML</h3>
+                    <span class="skill-icon" style="color: #FF5722;">5</span>
+                </div>
+                <p class="skill-desc">I build clean, semantic, and well-structured HTML that creates a strong foundation for modern websites.<br>I focus on accessibility, SEO-friendly markup, and responsive layouts that work seamlessly across all devices.</p>
+                <div class="progress-wrapper">
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 95%;"></div></div>
+                    <span>95%</span>
+                </div>
+            </div>
+
+            <div class="skill-card card-up">
+                <div class="skill-header">
+                    <h3>CSS</h3>
+                    <span class="skill-icon" style="color: #2196F3;">3</span>
+                </div>
+                <p class="skill-desc">I create modern, responsive, and visually polished interfaces using CSS with a strong focus on clean design.<br>I use advanced styling techniques, animations, and flexible layouts to deliver smooth and engaging user experiences.</p>
+                <div class="progress-wrapper">
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 90%;"></div></div>
+                    <span>90%</span>
+                </div>
+            </div>
+
+            <div class="skill-card card-down">
+                <div class="skill-header">
+                    <h3>JAVASCRIPT</h3>
+                    <span class="skill-icon" style="color: #FFC107;">JS</span>
+                </div>
+                <p class="skill-desc">I use JavaScript to build interactive, dynamic, and user-focused web experiences.<br>From smooth animations to functional UI components, I create websites that feel responsive, engaging, and modern.</p>
+                <div class="progress-wrapper">
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 85%;"></div></div>
+                    <span>85%</span>
+                </div>
+            </div>
+
+            <div class="skill-card card-up">
+                <div class="skill-header">
+                    <h3>PHP My SQL</h3>
+                    <span class="skill-icon" style="color: #E91E63; font-size: 1rem;">🐘 MySQL</span>
+                </div>
+                <p class="skill-desc">I have experience working with PHP and MySQL to build dynamic and data-driven websites. I can create, manage, and connect databases to web applications, allowing efficient storage and retrieval of information.</p>
+                <div class="progress-wrapper">
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 85%;"></div></div>
+                    <span>85%</span>
+                </div>
+            </div>
+
+            <div class="skill-card card-down">
+                <div class="skill-header">
+                    <h3>UX&UI</h3>
+                    <span class="skill-icon" style="color: var(--neon-green);">✍️</span>
+                </div>
+                <p class="skill-desc">I create modern, responsive, and visually polished interfaces with a strong focus on clean design.<br>I use advanced styling techniques, animations, and flexible layouts to deliver smooth and engaging user experiences.</p>
+                <div class="progress-wrapper">
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 95%;"></div></div>
+                    <span>95%</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+            <section class="section-five" id="work">
+
+
+    <div class="projects-content">
+        <h2 class="projects-title">FEATURED<br>PROJECTS</h2>
+        
+        <a href="./proekti/index.html" class="view-projects-btn">
+            <span class="btn-text-main">VIEW PROJECTS</span>
+            <span class="btn-icon">→</span>
+        </a>
+    </div>
+</section>
+<section class="section-six" id="about">
+        <div class="inspire-wrapper">
+            <div class="inspire-text inspire-left">Build to</div>
+            
+            <div class="about-center-box">
+                <div class="about-container">
+                    <div class="about-image-col">
+                        <img src="./sliki/ab.png" alt="Petar Donevski" class="about-me-img">
+                    </div>
+                    <div class="about-text-col">
+                        <p>I started my journey in web development driven by curiosity and a passion for creativity. What began as experimenting with simple websites quickly turned into a deep interest in building modern and interactive digital experiences. Since then, I've been constantly learning, improving my skills, and turning ideas into clean, responsive, and visually engaging websites.</p>
+                        <br>
+                        <p>Every project is an opportunity to blend creativity with functionality and create something memorable. I believe great web design is not only about how a website looks, but also about how it feels and performs. My goal is to create user-friendly experiences that are visually appealing, fast, and accessible across all devices.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="inspire-text inspire-right">inspire</div>
+        </div>
+    </section>
+    <section class="section-seven" id="contact">
+        <div class="contact-card">
+            <h2 class="contact-title">LET'S GET <span class="highlight">STARTED!</span></h2>
+<form class="contact-form" id="contact-form">
+                <div class="input-group">
+                    <label>Your Full Name:</label>
+                    <input type="text" id="name" placeholder="Petar Donevski*" required>
+                </div>
+                <div class="input-group">
+                    <label>Your E-mail Address:</label>
+                    <input type="email" id="email" placeholder="petardonevski21@gmail.com*" required>
+                </div>
+                <div class="input-group">
+                    <label>More info about the project:</label>
+                    <input type="text" id="message" placeholder="Whats this about?">
+                </div>
+<button type="submit" id="submit-btn" class="submit-btn">SUBMIT</button>
+            </form>
+        </div>
+    </section>
+        
+    <!-- ПЛАТНОТО Е ПРЕМЕСТЕНО ТУКА -->
+    <canvas id="hero-canvas"></canvas>
+
+</body>
+</html>

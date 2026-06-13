@@ -1,0 +1,342 @@
+/* Основни Поставки */
+:root {
+    --neon-green: #D2FF00;
+    --bg-olive: #111111;
+    --text-dark: #1A1A1A;
+    --text-light: #FFFFFF;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--bg-olive);
+    color: var(--text-light);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    line-height: 1.5;
+}
+a{text-decoration: none;}
+/* Хедер - со зголемен z-index за да нема преклопувања */
+header {
+    position: fixed; top: 0; left: 0; width: 100%;
+    padding: 2rem 3rem; display: flex; justify-content: space-between;
+    align-items: flex-start; z-index: 1000; pointer-events: none;
+}
+
+.logo { 
+    font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; 
+    pointer-events: auto; color: #FFFFFF; z-index: 1001;
+}
+.logo span { display: block; font-weight: 400; color: inherit; opacity: 0.7; }
+
+.menu-btn {
+    background-color: var(--neon-green); color: var(--text-dark);
+    border: none; padding: 0.8rem 2rem; border-radius: 20px 0px 0px 0px;
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem;
+    cursor: pointer; pointer-events: auto; z-index: 1001;
+}
+
+/* Мени Стилизација (Копирана од стариот сајт) */
+#full-menu {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background-color: #5B631B ; z-index: 2000; display: flex;
+    transform: translateY(-100%); visibility: hidden; overflow: hidden;
+}
+
+.close-menu {
+    position: absolute; top: 2rem; right: 3rem; background: #fff; border: none; 
+    width: 50px; height: 50px; font-family: 'Syne', sans-serif; font-weight: 700; 
+    cursor: pointer; border-radius: 5px; font-size: 1.2rem; z-index: 2010;
+}
+
+.menu-left { width: 40%; height: 100%; display: flex; gap: 4rem; padding-left: 50px; overflow: hidden; }
+.v-marquee-col { height: 100%; overflow: hidden; display: flex; align-items: center; }
+.v-marquee-inner { display: flex; flex-direction: column; }
+.col-up .v-marquee-inner { animation: marqueeVerticalUp 25s linear infinite; }
+.col-down .v-marquee-inner { animation: marqueeVerticalDown 25s linear infinite; }
+
+.v-text {
+    writing-mode: vertical-lr; transform: rotate(180deg); font-family: 'Syne', sans-serif; 
+    font-size: 4.5vw; font-weight: 800; text-transform: uppercase; padding: 2rem 0; 
+    white-space: nowrap; letter-spacing: 2px;
+}
+.col-up .v-text { color: var(--neon-green); }
+.col-down .v-text { color: var(--text-light); }
+
+@keyframes marqueeVerticalUp { 0% { transform: translateY(0%); } 100% { transform: translateY(-50%); } }
+@keyframes marqueeVerticalDown { 0% { transform: translateY(-50%); } 100% { transform: translateY(0%); } }
+
+.menu-right { width: 60%; height: 100%; display: flex; align-items: center; justify-content: flex-end; padding-right: 8rem; }
+.nav-links { list-style: none; display: flex; flex-direction: column; gap: 2rem; width: max-content; padding-left: 0; }
+.nav-links li { display: flex; align-items: center; justify-content: space-between; width: 100%; border-bottom: 1px solid rgba(255, 255, 255, 0.15); padding-bottom: 0.8rem; opacity: 0; transform: translateY(30px); }
+.roll-link { display: inline-flex; align-items: center; text-decoration: none; font-family: 'Syne', sans-serif; font-size: 6vw; font-weight: 800; color: var(--text-light); text-transform: uppercase; }
+.nav-links .num { font-family: 'Syne', sans-serif; font-size: 1.5rem; color: rgba(255, 255, 255, 0.5); font-weight: 400; margin-left: 2rem; }
+
+/* =========================================
+   ПРОЕКТИ - "AUDI" ЕФЕКТ
+========================================= */
+.work-showcase {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background-color: var(--bg-olive);
+}
+
+.work-left {
+    width: 45%;
+    display: flex;
+    align-items: center;
+    padding-left: 10vw;
+    padding-right: 5vw;
+    position: relative;
+    z-index: 10;
+}
+
+.work-text-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.work-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.work-meta {
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--neon-green);
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.work-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 5vw;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    color: #FFFFFF;
+}
+
+/* Дополнителна класа за Gentaro фонтот */
+.work-title.serif {
+    font-family: 'Space Grotesk', sans-serif;
+    font-style: italic;
+    font-weight: 600;
+    text-transform: none;
+    font-size: 4.5vw; /* Намалено од 6.5vw за да не оди текстот врз сликите */
+}
+
+.work-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2.5rem;
+    max-width: 450px;
+}
+
+.view-btn {
+    align-self: flex-start;
+    padding: 0.8rem 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 30px;
+    color: #FFFFFF;
+    text-decoration: none;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.view-btn:hover {
+    background-color: var(--neon-green);
+    color: var(--text-dark);
+    border-color: var(--neon-green);
+}
+
+.work-right {
+    width: 55%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.work-image-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.work-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    will-change: transform;
+}
+#rent{
+  background-position: 10% center;
+}
+/* ==========================================================================
+   ПРОФЕСИОНАЛНА МОБИЛНА И ТАБЛЕТ ВЕРЗИЈА (ПОД 1024px)
+   ========================================================================== */
+@media (max-width: 1024px) {
+    
+    /* 1. Хедер и Мени (Истата логика како претходно) */
+    header {
+        padding: 1.5rem;
+    }
+
+    #full-menu {
+        flex-direction: column;
+    }
+
+    .menu-left {
+        display: none !important;
+    }
+
+    .menu-right {
+        width: 100%;
+        height: 100%;
+        padding: 6rem 2rem 2rem 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nav-links {
+        width: 100%;
+        align-items: center;
+    }
+
+    .nav-links li {
+        width: 100%;
+        max-width: 320px;
+        padding-bottom: 1.2rem;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .roll-link {
+        font-size: 2.5rem !important;
+    }
+
+    .nav-links .num {
+        margin-left: 0;
+        font-size: 1.2rem;
+    }
+
+    .close-menu {
+        top: 1.5rem;
+        right: 1.5rem;
+        width: 44px;
+        height: 44px;
+        font-size: 1rem;
+    }
+
+    /* 2. Featured Projects (Хоризонтална поделба: Слика горе, Текст долу) */
+    .work-showcase {
+        flex-direction: column-reverse; /* Го става текстот долу, а сликите горе */
+        height: 100vh;
+        height: 100svh; /* Правилна висина за мобилни прелистувачи */
+    }
+
+    /* Контејнер за текст (Долна половина) */
+    .work-left {
+        width: 100%;
+        height: 50%;
+        padding: 2rem 1.5rem;
+        align-items: flex-start;
+    }
+
+    /* Контејнер за слика (Горна половина) */
+    .work-right {
+        width: 100%;
+        height: 50%;
+    }
+
+    .work-text {
+        justify-content: flex-start;
+        padding-top: 1rem;
+    }
+
+    .work-meta {
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .work-title {
+        font-size: 12vw;
+        margin-bottom: 1rem;
+    }
+
+    .work-title.serif {
+        font-size: 10vw;
+    }
+
+    .work-desc {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+        max-width: 100%;
+    }
+
+    .view-btn {
+        padding: 0.7rem 1.8rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* 3. Екстра поправка за многу мали телефони (под 600px) */
+@media (max-width: 600px) {
+    .work-left {
+        height: 55%; /* Даваме малку повеќе простор за текстот ако екранот е мал */
+    }
+    .work-right {
+        height: 45%;
+    }
+    .work-title {
+        font-size: 14vw;
+    }
+    .work-title.serif {
+        font-size: 12vw;
+    }
+    .work-desc {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+}
+@media (max-width: 1024px) {
+    /* 1. Намалување на копчето за мени */
+    .menu-btn {
+        padding: 0.5rem 1.2rem !important; /* Намалено падинг */
+        font-size: 0.8rem !important;      /* Намален фонт */
+        border-radius: 10px 0px 0px 0px !important;
+    }
+
+    /* 2. Подигнување на копчињата View Project */
+    .view-btn {
+        margin-top: -1.5rem !important;    /* Подигнати нагоре кон текстот */
+        margin-bottom: 2rem !important;    /* Повеќе простор подолу */
+        align-self: flex-start;
+    }
+    
+    /* Дополнителна поправка за просторот околу описот */
+    .work-desc {
+        margin-bottom: 3rem !important;    /* Ослободување простор за View копчето */
+    }
+}
