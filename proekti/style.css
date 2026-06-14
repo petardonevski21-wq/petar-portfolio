@@ -1,63 +1,154 @@
-/* Основни Поставки */
+:root{
+  --bg:        #141414;
+  --bg-2:      #1b1b1b;
+  --card:      #1f1f1f;
+  --olive:     #6f8c0a;
+  --olive-dk:  #5d7507;
+  --lime:      #c8fa3c;
+  --lime-2:    #d4ff3f;
+  --white:     #f4f4f0;
+  --grey:      #8d8d86;
+  --line:      rgba(244,244,240,.14);
+
+  --font:  'Space Grotesk', system-ui, sans-serif;
+  --serif: 'Playfair Display', Georgia, serif;
+
+  --pad: clamp(20px, 5vw, 90px);
+  --ease: cubic-bezier(.16,1,.3,1);
+}
+
 :root {
     --neon-green: #D2FF00;
-    --bg-olive: #111111;
+    --bg-olive: #5B631B;
     --text-dark: #1A1A1A;
     --text-light: #FFFFFF;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-    background-color: var(--bg-olive);
-    color: var(--text-light);
-    font-family: 'Inter', sans-serif;
-    overflow-x: hidden;
-    line-height: 1.5;
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+html{ -webkit-text-size-adjust:100%; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis.lenis-scrolling iframe { pointer-events: none; }
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--white);
+  line-height:1.4;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
 }
-a{text-decoration: none;}
-/* Хедер - со зголемен z-index за да нема преклопувања */
+img{ display:block; max-width:100%; height:auto; }
+::selection{ background:var(--lime); color:#111; }
+
+.section{ position:relative; padding:clamp(80px,14vh,160px) var(--pad); }
+
 header {
     position: fixed; top: 0; left: 0; width: 100%;
     padding: 2rem 3rem; display: flex; justify-content: space-between;
-    align-items: flex-start; z-index: 1000; pointer-events: none;
+    align-items: flex-start; z-index: 100; pointer-events: none;
 }
 
 .logo { 
-    font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; 
-    pointer-events: auto; color: #FFFFFF; z-index: 1001;
+    font-family: 'Syne', sans-serif; 
+    font-size: 1.2rem; 
+    font-weight: 700; 
+    pointer-events: auto; 
+    color: #FFFFFF; 
+    transition: color 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 101;
 }
 .logo span { display: block; font-weight: 400; color: inherit; opacity: 0.7; }
+header a { text-decoration: none; }
 
 .menu-btn {
     background-color: var(--neon-green); color: var(--text-dark);
     border: none; padding: 0.8rem 2rem; border-radius: 20px 0px 0px 0px;
     font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem;
-    cursor: pointer; pointer-events: auto; z-index: 1001;
+    cursor: pointer; pointer-events: auto; transition: transform 0.3s ease;
+    z-index: 101;
 }
 
-/* Мени Стилизација (Копирана од стариот сајт) */
+/* =========================================================
+   PROJECTS SLIDER
+   ========================================================= */
+/* Pinned, scroll-driven 3D coverflow */
+.projects{ background:#0f0f0f; overflow:hidden; padding:0; height:100svh; }
+.projects__viewport{ position:relative; height:100svh; display:flex; align-items:center; perspective:1200px; }
+.slider{
+  --sw: min(76vw, 620px);
+  display:flex; align-items:center; gap:clamp(22px,4vw,52px);
+  padding-inline:calc(50vw - var(--sw)/2);
+  will-change:transform;
+}
+.slide{ flex:0 0 var(--sw); }
+.slide__media{
+  border-radius:18px; overflow:hidden; background:#1c1c1c;
+  height:clamp(360px,58svh,620px);
+  will-change:transform;
+  box-shadow:0 40px 80px -36px rgba(0,0,0,.8);
+}
+.slide__media img{ width:100%; height:100%; object-fit:cover; transition:transform .8s var(--ease); }
+.slide:hover .slide__media img{ transform:scale(1.05); }
+.slide__media--ph{ display:grid; place-items:center; border:1px solid var(--line); }
+.slide__media--ph span{ color:var(--grey); letter-spacing:.2em; font-size:.8rem; text-transform:uppercase; }
+.slide__meta{ display:flex; justify-content:space-between; align-items:baseline; margin-top:1.1rem; }
+.slide__meta h3{ font-size:clamp(1.2rem,5vw,1.8rem); font-weight:700; }
+.slide__meta span{ color:var(--grey); font-size:.8rem; }
+
+.projects__hint{
+  position:absolute; left:50%; bottom:clamp(16px,3vh,30px); transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  color:var(--grey); font-size:.7rem; letter-spacing:.2em; text-transform:uppercase;
+  z-index:5;
+}
+
+@media (min-width:900px){
+  .slider{ --sw: min(60vw, 920px); gap:clamp(20px,3vw,44px); }
+  .slide__media{ height:clamp(420px,68svh,720px); }
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{ animation:none !important; transition:none !important; }
+  /* plain swipeable projects row without the pinned 3D motion */
+  .projects{ height:auto; padding:clamp(60px,10vh,120px) 0; }
+  .projects__viewport{ height:auto; perspective:none; }
+  .slider{ overflow-x:auto; transform:none !important; }
+}
+/* Мени стилови */
 #full-menu {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background-color: #5B631B ; z-index: 2000; display: flex;
-    transform: translateY(-100%); visibility: hidden; overflow: hidden;
+    background-color: var(--bg-olive);
+    z-index: 200;
+    display: flex;
+    transform: translateY(-100%);
+    visibility: hidden;
+    overflow: hidden;
 }
 
 .close-menu {
-    position: absolute; top: 2rem; right: 3rem; background: #fff; border: none; 
-    width: 50px; height: 50px; font-family: 'Syne', sans-serif; font-weight: 700; 
-    cursor: pointer; border-radius: 5px; font-size: 1.2rem; z-index: 2010;
+    position: absolute; top: 2rem; right: 3rem;
+    background: #fff; border: none; width: 50px; height: 50px;
+    font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer;
+    border-radius: 5px; font-size: 1.2rem; z-index: 10;
 }
 
-.menu-left { width: 40%; height: 100%; display: flex; gap: 4rem; padding-left: 50px; overflow: hidden; }
+.menu-left {
+    width: 40%; height: 100%;
+    display: flex; justify-content: flex-start; gap: 4rem;
+    padding-left: 50px; overflow: hidden;
+}
+
 .v-marquee-col { height: 100%; overflow: hidden; display: flex; align-items: center; }
 .v-marquee-inner { display: flex; flex-direction: column; }
 .col-up .v-marquee-inner { animation: marqueeVerticalUp 25s linear infinite; }
 .col-down .v-marquee-inner { animation: marqueeVerticalDown 25s linear infinite; }
 
 .v-text {
-    writing-mode: vertical-lr; transform: rotate(180deg); font-family: 'Syne', sans-serif; 
-    font-size: 4.5vw; font-weight: 800; text-transform: uppercase; padding: 2rem 0; 
+    writing-mode: vertical-lr; transform: rotate(180deg);
+    font-family: 'Syne', sans-serif; font-size: 4.5vw; font-weight: 800;
+    text-transform: uppercase; padding: 2rem 0; line-height: 1;
     white-space: nowrap; letter-spacing: 2px;
 }
 .col-up .v-text { color: var(--neon-green); }
@@ -66,139 +157,52 @@ header {
 @keyframes marqueeVerticalUp { 0% { transform: translateY(0%); } 100% { transform: translateY(-50%); } }
 @keyframes marqueeVerticalDown { 0% { transform: translateY(-50%); } 100% { transform: translateY(0%); } }
 
-.menu-right { width: 60%; height: 100%; display: flex; align-items: center; justify-content: flex-end; padding-right: 8rem; }
-.nav-links { list-style: none; display: flex; flex-direction: column; gap: 2rem; width: max-content; padding-left: 0; }
-.nav-links li { display: flex; align-items: center; justify-content: space-between; width: 100%; border-bottom: 1px solid rgba(255, 255, 255, 0.15); padding-bottom: 0.8rem; opacity: 0; transform: translateY(30px); }
-.roll-link { display: inline-flex; align-items: center; text-decoration: none; font-family: 'Syne', sans-serif; font-size: 6vw; font-weight: 800; color: var(--text-light); text-transform: uppercase; }
-.nav-links .num { font-family: 'Syne', sans-serif; font-size: 1.5rem; color: rgba(255, 255, 255, 0.5); font-weight: 400; margin-left: 2rem; }
-
-/* =========================================
-   ПРОЕКТИ - "AUDI" ЕФЕКТ
-========================================= */
-.work-showcase {
-    display: flex;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    background-color: var(--bg-olive);
+.menu-right {
+    width: 60%; height: 100%;
+    display: flex; align-items: center; justify-content: flex-end;
+    padding-right: 8rem;
 }
 
-.work-left {
-    width: 45%;
-    display: flex;
-    align-items: center;
-    padding-left: 10vw;
-    padding-right: 5vw;
-    position: relative;
-    z-index: 10;
-}
-
-.work-text-wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-.work-text {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
+.nav-links { list-style: none; display: flex; flex-direction: column; gap: 2rem; width: 85%; 
+display: flex;
     flex-direction: column;
-    justify-content: center;
-}
+    align-items: flex-start; /* Ги става сите во перфектна права линија од лево (ист редослед) */
+    transform: translateX(-5vw); /* Ги поместува сите заедно малку кон лево за да ги собере убаво */
+    padding-left: 0;width: max-content;}
+.nav-links li { display: flex; align-items: center; justify-content: space-between;width: 100%; border-bottom: 1px solid rgba(255, 255, 255, 0.15); padding-bottom: 0.8rem; opacity: 0; transform: translateY(30px); }
 
-.work-meta {
-    font-family: 'Space Grotesk', sans-serif;
-    color: var(--neon-green);
-    font-weight: 700;
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
-.work-title {
+.roll-link {
+    position: relative; 
+    display: inline-flex !important; /* Спречува скриптата да го измести */
+    align-items: center; /* Ги држи сите букви во перфектна хоризонтална линија */
+    white-space: nowrap; /* Спречува подолгиот збор да се прекрши */
+    text-decoration: none; 
     font-family: 'Syne', sans-serif;
-    font-size: 5vw;
-    font-weight: 800;
-    line-height: 1;
-    margin-bottom: 1.5rem;
-    color: #FFFFFF;
+    font-size: 6vw; 
+    font-weight: 800; 
+    color: var(--text-light);
+    line-height: 1.15;
+    text-transform: uppercase;
+    padding: 0.05em 0;
 }
 
-/* Дополнителна класа за Gentaro фонтот */
-.work-title.serif {
-    font-family: 'Space Grotesk', sans-serif;
-    font-style: italic;
-    font-weight: 600;
-    text-transform: none;
-    font-size: 4.5vw; /* Намалено од 6.5vw за да не оди текстот врз сликите */
-}
 
-.work-desc {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.1rem;
-    line-height: 1.7;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 2.5rem;
-    max-width: 450px;
-}
+.nav-links .num { font-family: 'Syne', sans-serif; font-size: 1.5rem; color: rgba(255, 255, 255, 0.5); font-weight: 400; }
 
-.view-btn {
-    align-self: flex-start;
-    padding: 0.8rem 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 30px;
-    color: #FFFFFF;
-    text-decoration: none;
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.view-btn:hover {
-    background-color: var(--neon-green);
-    color: var(--text-dark);
-    border-color: var(--neon-green);
-}
-
-.work-right {
-    width: 55%;
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
-}
-
-.work-image-wrapper {
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
-.work-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    will-change: transform;
-}
-#rent{
-  background-position: 10% center;
-}
-/* ==========================================================================
-   ПРОФЕСИОНАЛНА МОБИЛНА И ТАБЛЕТ ВЕРЗИЈА (ПОД 1024px)
-   ========================================================================== */
 @media (max-width: 1024px) {
-    
-    /* 1. Хедер и Мени (Истата логика како претходно) */
     header {
         padding: 1.5rem;
+    }
+
+    .logo {
+        font-size: 1.1rem;
+        color: #FFFFFF !important;
+    }
+
+    .menu-btn {
+        padding: 0.6rem 1.5rem;
+        border-radius: 14px 0px 0px 0px;
+        color: #000000 !important;
     }
 
     #full-menu {
@@ -220,6 +224,7 @@ header {
 
     .nav-links {
         width: 100%;
+        transform: none !important;
         align-items: center;
     }
 
@@ -227,17 +232,14 @@ header {
         width: 100%;
         max-width: 320px;
         padding-bottom: 1.2rem;
-        justify-content: center;
-        gap: 1rem;
     }
 
     .roll-link {
-        font-size: 2.5rem !important;
+        font-size: 2.2rem !important;
     }
 
     .nav-links .num {
-        margin-left: 0;
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
 
     .close-menu {
@@ -245,98 +247,5 @@ header {
         right: 1.5rem;
         width: 44px;
         height: 44px;
-        font-size: 1rem;
-    }
-
-    /* 2. Featured Projects (Хоризонтална поделба: Слика горе, Текст долу) */
-    .work-showcase {
-        flex-direction: column-reverse; /* Го става текстот долу, а сликите горе */
-        height: 100vh;
-        height: 100svh; /* Правилна висина за мобилни прелистувачи */
-    }
-
-    /* Контејнер за текст (Долна половина) */
-    .work-left {
-        width: 100%;
-        height: 50%;
-        padding: 2rem 1.5rem;
-        align-items: flex-start;
-    }
-
-    /* Контејнер за слика (Горна половина) */
-    .work-right {
-        width: 100%;
-        height: 50%;
-    }
-
-    .work-text {
-        justify-content: flex-start;
-        padding-top: 1rem;
-    }
-
-    .work-meta {
-        font-size: 0.85rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .work-title {
-        font-size: 12vw;
-        margin-bottom: 1rem;
-    }
-
-    .work-title.serif {
-        font-size: 10vw;
-    }
-
-    .work-desc {
-        font-size: 0.95rem;
-        line-height: 1.5;
-        margin-bottom: 1.5rem;
-        max-width: 100%;
-    }
-
-    .view-btn {
-        padding: 0.7rem 1.8rem;
-        font-size: 0.9rem;
-    }
-}
-
-/* 3. Екстра поправка за многу мали телефони (под 600px) */
-@media (max-width: 600px) {
-    .work-left {
-        height: 55%; /* Даваме малку повеќе простор за текстот ако екранот е мал */
-    }
-    .work-right {
-        height: 45%;
-    }
-    .work-title {
-        font-size: 14vw;
-    }
-    .work-title.serif {
-        font-size: 12vw;
-    }
-    .work-desc {
-        font-size: 0.9rem;
-        line-height: 1.4;
-    }
-}
-@media (max-width: 1024px) {
-    /* 1. Намалување на копчето за мени */
-    .menu-btn {
-        padding: 0.5rem 1.2rem !important; /* Намалено падинг */
-        font-size: 0.8rem !important;      /* Намален фонт */
-        border-radius: 10px 0px 0px 0px !important;
-    }
-
-    /* 2. Подигнување на копчињата View Project */
-    .view-btn {
-        margin-top: -1.5rem !important;    /* Подигнати нагоре кон текстот */
-        margin-bottom: 2rem !important;    /* Повеќе простор подолу */
-        align-self: flex-start;
-    }
-    
-    /* Дополнителна поправка за просторот околу описот */
-    .work-desc {
-        margin-bottom: 3rem !important;    /* Ослободување простор за View копчето */
     }
 }
