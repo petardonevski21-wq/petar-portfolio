@@ -320,6 +320,22 @@ function initGSAP() {
     // =========================================
     mm.add("(max-width: 1024px)", function() {
         
+        // HERO SECTION SHRINK - МОБИЛЕН (иста ScrollTrigger логика како кај десктоп верзијата, анимира само .hero-section)
+        const heroTlMobile = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".scroll-wrapper",
+                start: "top top",
+                end: "+=80%",
+                scrub: 1,
+                pin: true,
+                anticipatePin: 1
+            }
+        });
+        heroTlMobile.to(".hero-section", { scale: 0.6, borderRadius: "30px", boxShadow: "0px 30px 60px rgba(0,0,0,0.6)", duration: 1, ease: "power2.inOut" }, 0);
+        
+        // КЛУЧНО: Истата анимација за текстот DONEVSKI од десктоп се додава и тука
+        heroTlMobile.to(".reveal-text", { opacity: 1, letterSpacing: "5px", duration: 0.4, ease: "power2.out" }, 0.3);
+
         // ABOUT ME (BLOCK REVEAL) - МОБИЛЕН
         const aboutTlMobile = gsap.timeline({
             scrollTrigger: {

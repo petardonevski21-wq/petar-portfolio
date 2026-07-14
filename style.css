@@ -839,16 +839,17 @@ SECTION SEVEN - CONTACT FORM (ADDED)
         display: none !important;
     }
     
-    .reveal-text { 
-        display: none !important; 
-    }
+    .reveal-text {
+    display: block !important;
+font-size: 10vw !important; /* Ова ќе го направи доста поголемо од десктоп верзијата */
+}
 
     .hero-section {
         height: 100vh !important; 
         height: 100svh !important; /* Го прави точен за екрани на мобилен */
         width: 100% !important;
-        border-radius: 0px !important;
-        transform: none !important;
+        border-radius: 0px;
+        transform: none;
         position: relative !important;
         display: flex !important;
         flex-direction: column !important;
