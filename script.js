@@ -571,23 +571,29 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
 }
 
 const menuLinks = document.querySelectorAll('.nav-links .roll-link');
+
 menuLinks.forEach(link => {
     link.addEventListener('click', function(e) {
-        e.preventDefault(); 
-        const targetId = this.getAttribute('href'); 
+        const href = this.getAttribute('href');
 
-        if (targetId && targetId !== '#') {
-            menuTl.reverse();
-            lenis.start();
-
-            setTimeout(() => {
-                if (targetId === '#hero') {
-                    lenis.scrollTo(0, { duration: 1.5 });
-                } else {
-                    lenis.scrollTo(targetId, { offset: 0, duration: 1.5 });
-                }
-            }, 600); 
+        // Ако е друга страница, дозволи нормално да се отвори
+        if (!href.startsWith('#')) {
+            return;
         }
+
+        // Ако е секција (#hero, #about...)
+        e.preventDefault();
+
+        menuTl.reverse();
+        lenis.start();
+
+        setTimeout(() => {
+            if (href === '#hero') {
+                lenis.scrollTo(0, { duration: 1.5 });
+            } else {
+                lenis.scrollTo(href, { duration: 1.5 });
+            }
+        }, 600);
     });
 });
 
