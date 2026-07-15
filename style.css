@@ -434,3 +434,4 @@ header {
 @media (max-width: 600px) {
     .hero-image { width: 130% !important; max-width: 130% !important; height: auto !important; margin-top: auto !important; margin-bottom: 0 !important; display: block !important; }
 }
+

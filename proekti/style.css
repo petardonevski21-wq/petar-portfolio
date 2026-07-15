@@ -15,13 +15,12 @@
 
   --pad: clamp(20px, 5vw, 90px);
   --ease: cubic-bezier(.16,1,.3,1);
-}
-
-:root {
-    --neon-green: #D2FF00;
-    --bg-olive: #5B631B;
-    --text-dark: #1A1A1A;
-    --text-light: #FFFFFF;
+  
+  /* Бои за новото мени */
+  --neon-green: #D2FF00;
+  --bg-olive: #5B631B;
+  --text-dark: #1A1A1A;
+  --text-light: #FFFFFF;
 }
 
 *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
@@ -55,7 +54,7 @@ header {
     font-size: 1.2rem; 
     font-weight: 700; 
     pointer-events: auto; 
-    color: #FFFFFF; 
+    color: #fff; 
     transition: color 0.3s cubic-bezier(0.23, 1, 0.32, 1);
     z-index: 101;
 }
@@ -73,7 +72,6 @@ header a { text-decoration: none; }
 /* =========================================================
    PROJECTS SLIDER
    ========================================================= */
-/* Pinned, scroll-driven 3D coverflow */
 .projects{ background:#0f0f0f; overflow:hidden; padding:0; height:100svh; }
 .projects__viewport{ position:relative; height:100svh; display:flex; align-items:center; perspective:1200px; }
 .slider{
@@ -111,83 +109,147 @@ header a { text-decoration: none; }
 
 @media (prefers-reduced-motion:reduce){
   *{ animation:none !important; transition:none !important; }
-  /* plain swipeable projects row without the pinned 3D motion */
   .projects{ height:auto; padding:clamp(60px,10vh,120px) 0; }
   .projects__viewport{ height:auto; perspective:none; }
   .slider{ overflow-x:auto; transform:none !important; }
 }
-/* Мени стилови */
+
+/* =========================================
+   CENTERED FULL SCREEN MENU 
+========================================= */
 #full-menu {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background-color: var(--bg-olive);
-    z-index: 200;
-    display: flex;
-    transform: translateY(-100%);
-    visibility: hidden;
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh;
+    background-color: rgba(43, 46, 36, 0.95); 
+    z-index: 200; 
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    transform: translateY(-100%); 
+    visibility: hidden; 
     overflow: hidden;
 }
 
 .close-menu {
-    position: absolute; top: 2rem; right: 3rem;
-    background: #fff; border: none; width: 50px; height: 50px;
+    position: absolute; top: 2rem; right: 3rem; background: #fff; border: none; width: 50px; height: 50px;
     font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer;
     border-radius: 5px; font-size: 1.2rem; z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
-.menu-left {
-    width: 40%; height: 100%;
-    display: flex; justify-content: flex-start; gap: 4rem;
-    padding-left: 50px; overflow: hidden;
+.close-menu:hover {
+    background-color: #D2FF00;
 }
 
-.v-marquee-col { height: 100%; overflow: hidden; display: flex; align-items: center; }
-.v-marquee-inner { display: flex; flex-direction: column; }
-.col-up .v-marquee-inner { animation: marqueeVerticalUp 25s linear infinite; }
-.col-down .v-marquee-inner { animation: marqueeVerticalDown 25s linear infinite; }
-
-.v-text {
-    writing-mode: vertical-lr; transform: rotate(180deg);
-    font-family: 'Syne', sans-serif; font-size: 4.5vw; font-weight: 800;
-    text-transform: uppercase; padding: 2rem 0; line-height: 1;
-    white-space: nowrap; letter-spacing: 2px;
-}
-.col-up .v-text { color: var(--neon-green); }
-.col-down .v-text { color: var(--text-light); }
-
-@keyframes marqueeVerticalUp { 0% { transform: translateY(0%); } 100% { transform: translateY(-50%); } }
-@keyframes marqueeVerticalDown { 0% { transform: translateY(-50%); } 100% { transform: translateY(0%); } }
-
-.menu-right {
-    width: 60%; height: 100%;
-    display: flex; align-items: center; justify-content: flex-end;
-    padding-right: 8rem;
-}
-
-.nav-links { list-style: none; display: flex; flex-direction: column; gap: 2rem; width: 85%; 
-display: flex;
+.menu-center-wrapper {
+    display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Ги става сите во перфектна права линија од лево (ист редослед) */
-    transform: translateX(-5vw); /* Ги поместува сите заедно малку кон лево за да ги собере убаво */
-    padding-left: 0;width: max-content;}
-.nav-links li { display: flex; align-items: center; justify-content: space-between;width: 100%; border-bottom: 1px solid rgba(255, 255, 255, 0.15); padding-bottom: 0.8rem; opacity: 0; transform: translateY(30px); }
+    align-items: center;
+    text-align: center;
+    margin-top: -5vh; 
+}
+
+.nav-links {
+    list-style: none; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 0rem; 
+    align-items: center; 
+    padding: 0; 
+    margin-bottom: 3rem; 
+    width: 100%;
+}
+
+.nav-links li {
+    display: flex; 
+    align-items: flex-start; 
+    justify-content: center; 
+    opacity: 0; 
+    transform: translateY(30px); 
+    position: relative;
+    border: none; 
+    padding: 0;
+}
 
 .roll-link {
-    position: relative; 
-    display: inline-flex !important; /* Спречува скриптата да го измести */
-    align-items: center; /* Ги држи сите букви во перфектна хоризонтална линија */
-    white-space: nowrap; /* Спречува подолгиот збор да се прекрши */
-    text-decoration: none; 
-    font-family: 'Syne', sans-serif;
-    font-size: 6vw; 
+    font-family: 'Space Grotesk', sans-serif; 
+    font-size: 8vw; 
     font-weight: 800; 
-    color: var(--text-light);
-    line-height: 1.15;
+    color: #E5E5E5; 
+    line-height: 1; 
     text-transform: uppercase;
-    padding: 0.05em 0;
+    letter-spacing: -2px;
+    padding: 0;
+    text-decoration: none;
 }
 
+.nav-links .num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.2rem;
+    color: var(--neon-green);
+    font-weight: 700;
+    margin-left: 1rem;
+    margin-top: 1.5rem;
+}
 
-.nav-links .num { font-family: 'Syne', sans-serif; font-size: 1.5rem; color: rgba(255, 255, 255, 0.5); font-weight: 400; }
+.menu-logo-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0; 
+    animation: fadeInMenu 0.5s forwards 0.8s;
+}
+
+.logo-icon {
+    font-size: 2rem;
+    color: #888888;
+    letter-spacing: 5px;
+}
+
+.menu-logo-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: #888888;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.menu-socials {
+    position: absolute;
+    bottom: 3rem;
+    display: flex;
+    gap: 3rem;
+    opacity: 0;
+    animation: fadeInMenu 0.5s forwards 1s;
+}
+
+.menu-socials a {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+}
+
+.menu-socials a:hover {
+    color: var(--neon-green);
+}
+
+@keyframes fadeInMenu {
+    to { opacity: 1; }
+}
 
 @media (max-width: 1024px) {
     header {

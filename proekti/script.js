@@ -26,7 +26,7 @@
     ScrollTrigger.refresh();
   }
 
-  // 3. Menu Logic
+  // Обновена мени логика
   function initMenu() {
     if (typeof gsap === "undefined") return;
 
@@ -54,38 +54,35 @@
 
     menuLinks.forEach(link => {
         link.addEventListener('click', function(e) {
-            e.preventDefault(); 
             const targetId = this.getAttribute('href'); 
 
-            if (targetId && targetId !== '#') {
-                menuTl.reverse();
-                if (lenis) lenis.start();
-
-                // Времето на чекање е 600ms за да се синхронизира со затворањето на менито
-                setTimeout(() => {
-                    // Ако линкот е внатрешен лепенка (почнува со #), скролај со Lenis
-                    if (targetId.startsWith('#')) {
-                        if (!lenis) return;
-                        if (targetId === '#hero') {
-                            lenis.scrollTo(0, { duration: 1.5 });
-                        } else {
-                            lenis.scrollTo(targetId, {
-                                offset: 0,
-                                duration: 1.5
-                            });
-                        }
-                    } else {
-                        // Ако е класичен линк до страница (пр. /index.html), пренасочи го прелистувачот
-                        window.location.href = targetId;
-                    }
-                }, 600); 
+            // Ако е друга страница, дозволи нормално да се отвори
+            if (!targetId.startsWith('#')) {
+                return;
             }
+
+            e.preventDefault(); 
+            menuTl.reverse();
+            if (lenis) lenis.start();
+
+            // Времето на чекање е 600ms за да се синхронизира со затворањето на менито
+            setTimeout(() => {
+                if (!lenis) return;
+                if (targetId === '#hero') {
+                    lenis.scrollTo(0, { duration: 1.5 });
+                } else {
+                    lenis.scrollTo(targetId, {
+                        offset: 0,
+                        duration: 1.5
+                    });
+                }
+            }, 600); 
         });
     });
   }
 
-  // Функција за Lando Norris ефект
-  function applyHoverAnimation(buttonId) {
+  // Обновена функција за Lando Norris ефект со hoverColor опција
+  function applyHoverAnimation(buttonId, hoverColor) {
       const btn = document.getElementById(buttonId);
       if (!btn) return;
 
@@ -114,6 +111,10 @@
           cloneChar.style.transform = 'translate(-100%, 100%)'; 
           cloneChar.style.transition = 'transform 0.3s cubic-bezier(0.76, 0, 0.24, 1)';
           cloneChar.style.transitionDelay = `${i * 0.020}s`;
+          
+          if (hoverColor) {
+              cloneChar.style.color = hoverColor;
+          }
 
           charContainer.appendChild(origChar);
           charContainer.appendChild(cloneChar);
@@ -174,7 +175,7 @@
   }
 
   /* =====================================================
-     НОВО: СВЕТКИ ВО ПОЗАДИНА (Без чепкање на HTML/CSS)
+     СВЕТКИ ВО ПОЗАДИНА
      ===================================================== */
   function initSparkles() {
     const canvas = document.createElement('canvas');
@@ -265,10 +266,11 @@
     initMenu();
     applyHoverAnimation('open-btn');
     applyHoverAnimation('submit-btn');
-    applyHoverAnimation('nav-home');
-    applyHoverAnimation('nav-work');
-    applyHoverAnimation('nav-contact');
-    applyHoverAnimation('nav-about');
+    applyHoverAnimation('nav-home', '#D2FF00');
+    applyHoverAnimation('nav-work', '#D2FF00');
+    applyHoverAnimation('nav-contact', '#D2FF00');
+    applyHoverAnimation('nav-about', '#D2FF00');
+    applyHoverAnimation('close-btn', '#D2FF00');
     initScrollAnimations();
     initSlider();
     initSparkles(); // Го повикуваме ефектот на светки
