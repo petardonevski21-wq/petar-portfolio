@@ -5,33 +5,24 @@ const lenis = new Lenis({
     smoothWheel: true
 });
 
-// КЛУЧНА ПОПРАВКА ЗА ДА НЕМА СЕЦКАЊЕ: Комплетна синхронизација на Lenis со GSAP Ticker
 lenis.on('scroll', ScrollTrigger.update);
 
 gsap.ticker.add((time) => {
-    lenis.raf(time * 1000); // Претворање во милисекунди за перфектен тајминг
+    lenis.raf(time * 1000); 
 });
 
 gsap.ticker.lagSmoothing(0);
 
 // 2. Preloader Logic
 window.addEventListener('load', () => {
-
-    initGSAP(); // стартува прво твојата главна GSAP логика  
-
-    // КЛУЧНО: Ја повикуваме тука за да ги пресмета точните позиции ПО претходните секции!
+    initGSAP(); 
     initSectionSixAnimation(); 
 
     setTimeout(() => {
         const preloader = document.getElementById('preloader');
         preloader.style.opacity = '0';
-
-        setTimeout(() => {
-            preloader.style.display = 'none';
-        }, 1000);
-
+        setTimeout(() => { preloader.style.display = 'none'; }, 1000);
     }, 1000);
-
 });
 
 // 3. Menu Logic
@@ -43,78 +34,167 @@ const menuTl = gsap.timeline({ paused: true });
 menuTl.to(menuWrap, { duration: 0.6, y: "0%", autoAlpha: 1, ease: "power4.inOut" })
       .to(".nav-links li", { duration: 0.4, y: 0, opacity: 1, stagger: 0.08, ease: "power3.out" }, "-=0.2");
 
-openBtn.addEventListener('click', () => {
-    menuTl.play();
-    lenis.stop(); 
-});
-closeBtn.addEventListener('click', () => {
-    menuTl.reverse();
-    lenis.start(); 
-});
+openBtn.addEventListener('click', () => { menuTl.play(); lenis.stop(); });
+closeBtn.addEventListener('click', () => { menuTl.reverse(); lenis.start(); });
 
-// 4. Hero Canvas Fluid Animation
-const canvas = document.getElementById('hero-canvas');
-const ctx = canvas.getContext('2d');
+// =========================================
+// 4. PREMIUM VERTICAL GRID & LIGHT NODES
+// =========================================
+const premiumCanvas = document.getElementById('premium-bg-canvas');
+const ctx = premiumCanvas.getContext('2d');
+
+// Лесна конфигурација за визуелниот ефект
+const BG_CONFIG = {
+    linesCount: 34,           // Број на вертикални линии
+    nodesCount: 65,           // Вкупен број на светлосни точки
+    nodeSizeMin: 3,           // Најмала точка
+    nodeSizeMax: 5,           // Најголема точка
+    animationSpeed: 1.2,      // Брзина на движење
+    lineOpacity: 0.08,        // Провидност на линиите (0.08 = многу суптилно)
+    glowIntensity: 12,        // Интезитет на сјај (Blur/Glow)
+    nodeColor: '#ffffff'      // Боја на точките
+};
+
 let width, height;
-let mouse = { x: -1000, y: -1000, radius: 150 };
+let linesX = [];
+let nodes = [];
+let isAnimating = false;
+let prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
-function resizeCanvas() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; initLines(); }
+class LightNode {
+    constructor() {
+        this.reset(true);
+    }
+
+    reset(initial = false) {
+        // Закачи точка за рандом линија
+        this.lineIndex = Math.floor(Math.random() * BG_CONFIG.linesCount);
+        this.size = BG_CONFIG.nodeSizeMin + Math.random() * (BG_CONFIG.nodeSizeMax - BG_CONFIG.nodeSizeMin);
+        
+        // 50% шанс да оди нагоре, 50% надоле + рандомизација на брзина
+        let direction = Math.random() > 0.5 ? 1 : -1;
+        let baseSpeed = 0.2 + Math.random() * 1.5; 
+        this.speed = baseSpeed * direction * BG_CONFIG.animationSpeed;
+        
+        // Рандомизација на јачината на светлината
+        this.opacity = 0.3 + Math.random() * 0.7;
+
+        // Ако е почетно лоадирање распрскај ги низ екранот, инаку почекај надвор од екран
+        if (initial) {
+            this.y = Math.random() * height;
+        } else {
+            const offscreenOffset = (this.size / 2) + BG_CONFIG.glowIntensity + 10;
+            this.y = this.speed > 0 ? -offscreenOffset : height + offscreenOffset;
+        }
+    }
+
+    update() {
+        if (prefersReducedMotion) return;
+        
+        this.y += this.speed;
+        
+        // Секогаш ја прати позицијата на линијата за време на resize
+        this.x = linesX[this.lineIndex] || 0; 
+
+        // Мазно респавнирање кога ќе излезе надвор од екранот
+        const offscreenOffset = (this.size / 2) + BG_CONFIG.glowIntensity + 10;
+        
+        if (this.speed > 0 && this.y > height + offscreenOffset) {
+            this.reset();
+        } else if (this.speed < 0 && this.y < -offscreenOffset) {
+            this.reset();
+        }
+    }
+
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size / 2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+        ctx.shadowBlur = BG_CONFIG.glowIntensity;
+        ctx.shadowColor = `rgba(255, 255, 255, ${this.opacity})`;
+        ctx.fill();
+        
+        // Ресетирање на сјајот за да не се префрли на линиите
+        ctx.shadowBlur = 0;
+    }
+}
+
+function initGrid() {
+    linesX = [];
+    const spacing = width / (BG_CONFIG.linesCount + 1);
+    
+    for (let i = 1; i <= BG_CONFIG.linesCount; i++) {
+        linesX.push(i * spacing);
+    }
+    
+    // Синхронизација или иницијализација на точките
+    if (nodes.length === 0) {
+        for (let i = 0; i < BG_CONFIG.nodesCount; i++) {
+            nodes.push(new LightNode());
+        }
+    } else {
+        nodes.forEach(node => {
+            if (node.lineIndex >= BG_CONFIG.linesCount) {
+                node.lineIndex = Math.floor(Math.random() * BG_CONFIG.linesCount);
+            }
+        });
+    }
+}
+
+function resizeCanvas() {
+    width = premiumCanvas.width = window.innerWidth;
+    height = premiumCanvas.height = window.innerHeight;
+    initGrid();
+    if (prefersReducedMotion) drawFrame(); 
+}
+
+function drawFrame() {
+    ctx.clearRect(0, 0, width, height);
+
+    // Цртање на мрежата од вертикални линии
+    ctx.beginPath();
+    for (let i = 0; i < linesX.length; i++) {
+        let x = Math.round(linesX[i]) + 0.5; // +0.5 за најчисти остри линии (crisp 1px stroke)
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, height);
+    }
+    ctx.strokeStyle = `rgba(255, 255, 255, ${BG_CONFIG.lineOpacity})`;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Цртање на анимираните точки
+    nodes.forEach(node => {
+        node.update();
+        node.draw();
+    });
+}
+
+function animateCanvas() {
+    if (document.hidden || prefersReducedMotion) {
+        isAnimating = false;
+        return;
+    }
+    isAnimating = true;
+    drawFrame();
+    requestAnimationFrame(animateCanvas);
+}
+
+// Оптимизирано слушање на настани
 window.addEventListener('resize', resizeCanvas);
-
-class Point {
-    constructor(x, baseY) { this.x = x; this.y = baseY; this.baseY = baseY; this.vy = 0; }
-    update(time, speed, phase, amp) {
-        let targetY = this.baseY + Math.sin(this.x * 0.002 + time * speed + phase) * amp;
-        targetY += Math.sin(this.x * 0.005 - time * (speed * 1.5)) * (amp * 0.5);
-        let dx = mouse.x - this.x; let dy = mouse.y - this.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance < mouse.radius) {
-            let force = (mouse.radius - distance) / mouse.radius;
-            targetY += force * 80 * (dy > 0 ? -1 : 1); 
-        }
-        let ay = (targetY - this.y) * 0.05;
-        this.vy += ay; this.vy *= 0.85; this.y += this.vy;
+document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && !isAnimating && !prefersReducedMotion) {
+        animateCanvas();
     }
-}
-
-class FluidLine {
-    constructor(yOffset, color, speed, amp) {
-        this.yOffset = yOffset; this.color = color; this.speed = speed; this.amp = amp;
-        this.phase = Math.random() * Math.PI * 2; this.points = [];
-        let resolution = 30; 
-        for (let x = -50; x <= width + 50; x += resolution) this.points.push(new Point(x, yOffset));
-    }
-    draw(time) {
-        ctx.beginPath(); ctx.moveTo(this.points[0].x, this.points[0].y);
-        for (let i = 0; i < this.points.length; i++) {
-            let p = this.points[i]; p.update(time, this.speed, this.phase, this.amp);
-            if (i < this.points.length - 1) {
-                let xc = (p.x + this.points[i + 1].x) / 2; let yc = (p.y + this.points[i + 1].y) / 2;
-                ctx.quadraticCurveTo(p.x, p.y, xc, yc);
-            } else ctx.lineTo(p.x, p.y);
-        }
-        ctx.strokeStyle = this.color; ctx.lineWidth = 1; ctx.stroke();
-    }
-}
-
-let lines = [];
-function initLines() { lines = []; for(let i = 0; i < 6; i++) lines.push(new FluidLine(height * (0.15 + (i * 0.12)), 'rgba(0, 0, 0, 0.25)', 0.001 + (Math.random() * 0.0015), 30 + (Math.random() * 60))); }
-function animateCanvas(time) { ctx.clearRect(0, 0, width, height); lines.forEach(line => line.draw(time)); requestAnimationFrame(animateCanvas); }
+});
 
 resizeCanvas();
-requestAnimationFrame(animateCanvas);
+if (!prefersReducedMotion) animateCanvas();
 
+// =========================================
 // Почетна состојба на индикаторите
-gsap.set(".line-ind", {
-    width: "20px",
-    backgroundColor: "#1A1A1A"
-});
-
-gsap.set(".line-ind:nth-of-type(1)", {
-    width: "40px",
-    backgroundColor: "#D2FF00"
-});
+// =========================================
+gsap.set(".line-ind", { width: "20px", backgroundColor: "#1A1A1A" });
+gsap.set(".line-ind:nth-of-type(1)", { width: "40px", backgroundColor: "#D2FF00" });
 
 // 5. GSAP & ScrollTrigger Animations
 function initGSAP() {
@@ -122,12 +202,7 @@ function initGSAP() {
     
     let mm = gsap.matchMedia();
 
-    // =========================================
-    // ДЕСКТОП АНИМАЦИИ (Екрани над 1024px) - НЕЧЕПНАТИ
-    // =========================================
     mm.add("(min-width: 1025px)", function() {
-        
-        // ГЛАВНА АНИМАЦИЈА ЗА ПРВАТА СТРАНА (СЕГА САМО ЗА ДЕСКТОП)
         const heroTl = gsap.timeline({
             scrollTrigger: {
                 trigger: ".scroll-wrapper",
@@ -147,7 +222,6 @@ function initGSAP() {
         heroTl.to(".line-ind", { backgroundColor: "#FFFFFF", duration: 0.25, ease: "expo.out" }, 0.35);
         heroTl.to("#hero-text", { color: "#FFFFFF", duration: 0.25, ease: "expo.out" }, 0.35);
 
-        // ABOUT ME (BLOCK REVEAL) ДЕСКТОП
         const aboutTl = gsap.timeline({
             scrollTrigger: {
                 trigger: ".section-three",
@@ -167,7 +241,6 @@ function initGSAP() {
                    .to(block, { scaleX: 0, transformOrigin: "right", duration: 0.35, ease: "power3.inOut" });
         });
 
-        // ХОРИЗОНТАЛНО СКРОЛАЊЕ СО ЛЕПЕЊЕ ЗА ДЕСКТОП
         let skillsTrack = document.getElementById("skills-track");
         if (skillsTrack) {
             let getScrollAmount = () => skillsTrack.scrollWidth - window.innerWidth;
@@ -208,7 +281,6 @@ function initGSAP() {
             }
         });
 
-        // СМООТХ ПРЕЛАЗ ЗА ПОЗАДИНИТЕ
         gsap.set("body", { backgroundColor: "#5B631B" });
         gsap.to("body", {
             scrollTrigger: {
@@ -226,7 +298,6 @@ function initGSAP() {
             ]
         });
 
-        // СИНХРОНИЗИРАНА КОНТРОЛА НА ТЕКСТ И ЛИНИИ
         ScrollTrigger.create({
             start: "top top",
             endTrigger: ".section-four",
@@ -315,12 +386,7 @@ function initGSAP() {
         });
     });
 
-    // =========================================
-    // МОБИЛНИ АНИМАЦИИ (Екрани под 1024px)
-    // =========================================
     mm.add("(max-width: 1024px)", function() {
-        
-        // HERO SECTION SHRINK - МОБИЛЕН (иста ScrollTrigger логика како кај десктоп верзијата, анимира само .hero-section)
         const heroTlMobile = gsap.timeline({
             scrollTrigger: {
                 trigger: ".scroll-wrapper",
@@ -332,11 +398,8 @@ function initGSAP() {
             }
         });
         heroTlMobile.to(".hero-section", { scale: 0.6, borderRadius: "30px", boxShadow: "0px 30px 60px rgba(0,0,0,0.6)", duration: 1, ease: "power2.inOut" }, 0);
-        
-        // КЛУЧНО: Истата анимација за текстот DONEVSKI од десктоп се додава и тука
         heroTlMobile.to(".reveal-text", { opacity: 1, letterSpacing: "5px", duration: 0.4, ease: "power2.out" }, 0.3);
 
-        // ABOUT ME (BLOCK REVEAL) - МОБИЛЕН
         const aboutTlMobile = gsap.timeline({
             scrollTrigger: {
                 trigger: ".section-three",
@@ -356,7 +419,6 @@ function initGSAP() {
                          .to(block, { scaleX: 0, transformOrigin: "right", duration: 0.35, ease: "power3.inOut" });
         });
 
-        // SKILLS КАРТИЧКИ
         gsap.utils.toArray(".skill-card").forEach((card) => {
             gsap.from(card, {
                 y: 40,
@@ -371,7 +433,6 @@ function initGSAP() {
             });
         });
 
-        // СМООТХ ТРАНЗИЦИЈА НА БОИ НА ТЕЛОТО ЗА МОБИЛЕН
         gsap.set("body", { backgroundColor: "#5B631B" });
         gsap.to("body", {
             scrollTrigger: {
@@ -399,7 +460,6 @@ function initGSAP() {
     });
 }
 
-// Анимација за Featured Projects секцијата
 if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.from(".projects-content", {
         scrollTrigger: {
@@ -414,7 +474,6 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     });
 }
 
-// Функција за Lando Norris ефект
 function applyHoverAnimation(buttonId) {
     const btn = document.getElementById(buttonId);
     if (!btn) return;
@@ -467,9 +526,6 @@ applyHoverAnimation('nav-work');
 applyHoverAnimation('nav-contact');
 applyHoverAnimation('nav-about');
 
-// =========================================
-// PREMIUM SMOOTH MASK ANIMATION FOR SECTION SIX
-// =========================================
 function initSectionSixAnimation() {
     let mm = gsap.matchMedia();
 
@@ -494,7 +550,6 @@ function initSectionSixAnimation() {
     });
 
     mm.add("(max-width: 1024px)", function() {
-        // На мобилен правиме чист и префинет паралакс влез на содржината
         gsap.from(".about-center-box", {
             y: 50,
             opacity: 0,
@@ -509,9 +564,6 @@ function initSectionSixAnimation() {
     });
 }
 
-// =========================================
-// АНИМАЦИЈА ЗА КОНТАКТ СЕКЦИЈАТА
-// =========================================
 if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.to(".contact-card", {
         scrollTrigger: {
@@ -525,9 +577,8 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
         ease: "power3.out"
     });
 }
-// Поврзување на менито со Lenis Smooth Scroll
-const menuLinks = document.querySelectorAll('.nav-links .roll-link');
 
+const menuLinks = document.querySelectorAll('.nav-links .roll-link');
 menuLinks.forEach(link => {
     link.addEventListener('click', function(e) {
         e.preventDefault(); 
@@ -537,22 +588,17 @@ menuLinks.forEach(link => {
             menuTl.reverse();
             lenis.start();
 
-            // Времето на чекање е намалено на 600ms за да се синхронизира со затворањето на менито
             setTimeout(() => {
                 if (targetId === '#hero') {
                     lenis.scrollTo(0, { duration: 1.5 });
                 } else {
-                    lenis.scrollTo(targetId, {
-                        offset: 0,
-                        duration: 1.5
-                    });
+                    lenis.scrollTo(targetId, { offset: 0, duration: 1.5 });
                 }
             }, 600); 
         }
     });
 });
 
-// Иницијализација со објект (стандард за v4)
 emailjs.init({
     publicKey: "0pJGXmE2Gs5zVadVM",
 });

@@ -14,12 +14,8 @@
     <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js" ></script> 
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
     <script src="script.js" defer></script>
-
-  
 </head>
 <body>
-
-    <!-- ПЛАТНОТО Е ИЗБРИШАНО ОД ТУКА -->
 
     <div id="preloader">
         <div class="preloader-text">
@@ -46,12 +42,12 @@
         </div>
 
         <div class="menu-right">
-<ul class="nav-links">
-    <li><a href="#hero" class="roll-link" id="nav-home">HOME</a><span class="num">01</span></li>
-    <li><a href="#work" class="roll-link" id="nav-work">Work</a><span class="num">02</span></li>
-    <li><a href="#contact" class="roll-link" id="nav-contact">Contact</a><span class="num">03</span></li>
-    <li><a href="#about" class="roll-link" id="nav-about">About</a><span class="num">04</span></li>
-</ul>
+            <ul class="nav-links">
+                <li><a href="#hero" class="roll-link" id="nav-home">HOME</a><span class="num">01</span></li>
+                <li><a href="#work" class="roll-link" id="nav-work">Work</a><span class="num">02</span></li>
+                <li><a href="#contact" class="roll-link" id="nav-contact">Contact</a><span class="num">03</span></li>
+                <li><a href="#about" class="roll-link" id="nav-about">About</a><span class="num">04</span></li>
+            </ul>
         </div>
     </nav>
 
@@ -115,8 +111,6 @@
     </section>
 
     <section class="section-four" id="section-four">
-        <div class="skills-bg-lines"></div>
-        
         <div class="skills-title-wrapper">
             <h2>My skills</h2>
         </div>
@@ -186,19 +180,19 @@
 
         </div>
     </section>
-            <section class="section-five" id="work">
 
+    <section class="section-five" id="work">
+        <div class="projects-content">
+            <h2 class="projects-title">FEATURED<br>PROJECTS</h2>
+            
+            <a href="./proekti/index.html" class="view-projects-btn">
+                <span class="btn-text-main">VIEW PROJECTS</span>
+                <span class="btn-icon">→</span>
+            </a>
+        </div>
+    </section>
 
-    <div class="projects-content">
-        <h2 class="projects-title">FEATURED<br>PROJECTS</h2>
-        
-        <a href="./proekti/index.html" class="view-projects-btn">
-            <span class="btn-text-main">VIEW PROJECTS</span>
-            <span class="btn-icon">→</span>
-        </a>
-    </div>
-</section>
-<section class="section-six" id="about">
+    <section class="section-six" id="about">
         <div class="inspire-wrapper">
             <div class="inspire-text inspire-left">Build to</div>
             
@@ -218,14 +212,15 @@
             <div class="inspire-text inspire-right">inspire</div>
         </div>
     </section>
+
     <section class="section-seven" id="contact">
         <div class="contact-card">
             <h2 class="contact-title">LET'S GET <span class="highlight">STARTED!</span></h2>
-<form class="contact-form" id="contact-form">
+            <form class="contact-form" id="contact-form">
                 <div class="input-group">
                     <label>Your Full Name:</label>
                     <input type="text" id="name" placeholder="Petar Donevski*" required>
-                </div>
+                </div>  
                 <div class="input-group">
                     <label>Your E-mail Address:</label>
                     <input type="email" id="email" placeholder="petardonevski21@gmail.com*" required>
@@ -234,13 +229,13 @@
                     <label>More info about the project:</label>
                     <input type="text" id="message" placeholder="Whats this about?">
                 </div>
-<button type="submit" id="submit-btn" class="submit-btn">SUBMIT</button>
+                <button type="submit" id="submit-btn" class="submit-btn">SUBMIT</button>
             </form>
         </div>
     </section>
         
-    <!-- ПЛАТНОТО Е ПРЕМЕСТЕНО ТУКА -->
-    <canvas id="hero-canvas"></canvas>
+    <!-- ПРЕМИУМ АНИМИРАНА ПОЗАДИНА -->
+    <canvas id="premium-bg-canvas"></canvas>
 
 </body>
 </html>
