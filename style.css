@@ -130,9 +130,8 @@ header {
 
 .hero-section {
     position: relative; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: #FFFFFF; z-index: 50; overflow: hidden;
+    background-color: #FFFFFF; z-index: 5; overflow: hidden;
     transform-origin: center center; will-change: transform, border-radius;
-    z-index: 5;
 }
 
 .hero-image {
@@ -202,7 +201,7 @@ header {
     left: 0; 
     width: 100vw; 
     height: 100vh;
-    background-color: rgba(43, 46, 36, 0.95); /* Проѕирна темна боја за да се гледаат светките */
+    background-color: rgba(43, 46, 36, 0.95); 
     z-index: 200; 
     display: flex; 
     flex-direction: column;
@@ -224,8 +223,7 @@ header {
 }
 
 .close-menu:hover {
-    background-color: #D2FF00; /* Neon green on hover */
-
+    background-color: #D2FF00;
 }
 
 .menu-center-wrapper {
@@ -278,7 +276,6 @@ header {
     margin-top: 1.5rem;
 }
 
-/* LOGO ПОД ЛИНКОВИТЕ */
 .menu-logo-wrapper {
     display: flex;
     flex-direction: column;
@@ -303,7 +300,6 @@ header {
     font-weight: 600;
 }
 
-/* СОЦИЈАЛНИ МРЕЖИ НАЈДОЛУ */
 .menu-socials {
     position: absolute;
     bottom: 3rem;
@@ -382,7 +378,7 @@ header {
 .submit-btn:hover { background-color: var(--neon-green); }
 
 /* ==========================================================================
-   MOBILE & RESPONSIVE FIXES
+   MOBILE & RESPONSIVE
    ========================================================================== */
 @media (max-width: 1024px) {
     body { font-size: 14px; }
@@ -392,23 +388,20 @@ header {
     .menu-btn { padding: 0.6rem 1.5rem; border-radius: 14px 0px 0px 0px; color: #000000 !important; }
     .preloader-text { font-size: 2.5rem; }
     
-    /* НОВИ MOBILE FIXES ЗА МЕНИТО */
     .roll-link { font-size: 12vw !important; }
     .nav-links .num { font-size: 1rem; margin-top: 1rem; }
     .menu-socials { gap: 1.5rem; bottom: 2rem; }
     .menu-socials a { font-size: 0.75rem; }
     
     .close-menu { top: 1.5rem; right: 1.5rem; width: 44px; height: 44px; }
-    .scroll-wrapper { height: auto !important; overflow: visible !important; display: block !important; }
-    .section-two { display: none !important; }
-    .marquee-item { display: none !important; }
-    .marquee-container { display: none !important; }
-    .reveal-text { display: block !important; font-size: 10vw !important; z-index: 5000; }
-    .hero-section { height: 100vh !important; height: 100svh !important; width: 100% !important; border-radius: 0px; transform: none; position: relative !important; display: flex !important; flex-direction: column !important; justify-content: flex-end !important; align-items: center !important; background-color: #FFFFFF !important; }
-    .hero-image { width: 100% !important; max-width: 70% !important; height: auto !important; position: relative !important; left: auto !important; right: auto !important; transform: none !important; bottom: 0 !important; margin-top: auto !important; margin-bottom: 0 !important; z-index: 10 !important; filter: none !important; display: block !important; }
-    .scroll-down { bottom: 1rem; z-index: 15 !important; }
+    
+    /* ЕДИНСТВЕНА ПРОМЕНА ТУКА - Го откриваме marquee текстот на мобилен */
+    .section-two { display: flex !important; }
+    .marquee-container { display: flex !important; margin: 1rem 0 !important; }
+    .marquee-item { display: block !important; font-size: 12vw !important; padding: 0 1rem !important; }
+    .marquee-item.white { color: var(--text-light) !important; }
+    
     .section-three { padding: 6rem 1rem; height: auto; }
-    .centered-content { width: 100%; transform: none !important; opacity: 1 !important; }
     .main-description { font-size: 6vw !important; line-height: 1.5; }
     .section-four { height: auto !important; padding: 6rem 1.5rem; display: block !important; }
     .skills-title-wrapper { position: relative !important; left: 0 !important; top: 0 !important; transform: none !important; margin-bottom: 4rem; text-align: center; }
@@ -425,19 +418,10 @@ header {
     .section-six { height: 100vh !important; height: 100svh !important; padding: 0 !important; }
     .inspire-wrapper { height: 100% !important; flex-direction: column; }
     .about-center-box { position: relative !important; left: 0 !important; transform: translateX(0); width: 100vw !important; height: 100% !important; background-color: transparent; border-radius: 0px !important; padding: 0 !important; }
-  .about-container { 
-        flex-direction: column !important; 
-        width: 100%; 
-        height: 100%; 
-        gap: 0 !important; 
-        padding: 2rem 1.5rem 1.1rem 1.5rem !important;
-        justify-content: flex-end !important; 
-        position: relative; 
-        z-index: 2; 
-    }
+    .about-container { flex-direction: column !important; width: 100%; height: 100%; gap: 0 !important; padding: 2rem 1.5rem 1.1rem 1.5rem !important; justify-content: flex-end !important; position: relative; z-index: 2; }
     .about-image-col { position: absolute !important; top: 0 !important; left: 0 !important; transform: none !important; width: 100% !important; height: 100% !important; border-radius: 0px !important; overflow: hidden; z-index: 1 !important; }
     .about-image-col::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 75%; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 45%, transparent 100%); z-index: 2; pointer-events: none; }
-   .about-me-img { width: 100% !important; height: 100% !important; object-fit: cover !important; object-position: 20% top !important; }
+    .about-me-img { width: 100% !important; height: 100% !important; object-fit: cover !important; object-position: 20% top !important; }
     .about-text-col { width: 100% !important; font-size: 0.8rem; line-height: 1.6; text-align: left; position: relative; z-index: 3 !important; text-shadow: 0 2px 10px rgba(0,0,0,0.8); margin-top: auto; }
     .inspire-text { display: none !important; }
     

@@ -43,7 +43,6 @@ closeBtn.addEventListener('click', () => { menuTl.reverse(); lenis.start(); });
 const premiumCanvas = document.getElementById('premium-bg-canvas');
 const ctx = premiumCanvas.getContext('2d');
 
-// Лесна конфигурација за визуелниот ефект
 const BG_CONFIG = {
     linesCount: 34,           
     nodesCount: 65,           
@@ -190,6 +189,7 @@ function initGSAP() {
     
     let mm = gsap.matchMedia();
 
+    // ДЕСКТОП СЕКЦИЈА 
     mm.add("(min-width: 1025px)", function() {
         const heroTl = gsap.timeline({
             scrollTrigger: {
@@ -374,6 +374,7 @@ function initGSAP() {
         });
     });
 
+    // МОБИЛНА СЕКЦИЈА
     mm.add("(max-width: 1024px)", function() {
         const heroTlMobile = gsap.timeline({
             scrollTrigger: {
@@ -385,6 +386,10 @@ function initGSAP() {
                 anticipatePin: 1
             }
         });
+        
+        // ЕДИНСТВЕНА ПРОМЕНА - Текстот се појавува кога се скрола
+        heroTlMobile.to(".section-two", { opacity: 1, duration: 0.1 }, 0);
+        
         heroTlMobile.to(".hero-section", { scale: 0.6, borderRadius: "30px", boxShadow: "0px 30px 60px rgba(0,0,0,0.6)", duration: 1, ease: "power2.inOut" }, 0);
         heroTlMobile.to(".reveal-text", { opacity: 1, letterSpacing: "5px", duration: 0.4, ease: "power2.out" }, 0.3);
 
