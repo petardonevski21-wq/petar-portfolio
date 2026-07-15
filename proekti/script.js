@@ -173,6 +173,93 @@
     updateCoverflow();
   }
 
+  /* =====================================================
+     НОВО: СВЕТКИ ВО ПОЗАДИНА (Без чепкање на HTML/CSS)
+     ===================================================== */
+  function initSparkles() {
+    const canvas = document.createElement('canvas');
+    canvas.id = 'bg-sparkles';
+    document.body.prepend(canvas);
+
+    Object.assign(canvas.style, {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100vw',
+        height: '100vh',
+        zIndex: '1', /* За да се гледа над позадината, но позади елементите */
+        pointerEvents: 'none' /* За да не блокира кликање */
+    });
+
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
+
+    function initCanvas() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', () => {
+        initCanvas();
+        createParticles();
+    });
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * width;
+            this.y = Math.random() * height;
+            this.size = Math.random() * 1.5 + 0.5;
+            this.speedX = Math.random() * 0.3 - 0.15;
+            this.speedY = Math.random() * 0.3 - 0.15;
+            // Микс од бела боја и неонската зелена
+            this.color = Math.random() > 0.5 ? 'rgba(255, 255, 255, ' : 'rgba(210, 255, 0, ';
+            this.alpha = Math.random() * 0.5 + 0.2;
+            this.alphaChange = Math.random() * 0.01 - 0.005;
+        }
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+
+            if (this.x < 0 || this.x > width) this.speedX *= -1;
+            if (this.y < 0 || this.y > height) this.speedY *= -1;
+            
+            // Ефект на светкање (twinkle)
+            this.alpha += this.alphaChange;
+            if (this.alpha <= 0.1 || this.alpha >= 0.7) {
+                this.alphaChange *= -1;
+            }
+        }
+        draw() {
+            ctx.fillStyle = this.color + this.alpha + ')';
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    function createParticles() {
+        particles = [];
+        const particleCount = Math.floor(window.innerWidth / 20); // Динамичен број на светки
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, width, height);
+        particles.forEach(p => {
+            p.update();
+            p.draw();
+        });
+        requestAnimationFrame(animate);
+    }
+
+    initCanvas();
+    createParticles();
+    animate();
+  }
+
   window.addEventListener("load", () => {
     initLenis();
     initMenu();
@@ -184,6 +271,7 @@
     applyHoverAnimation('nav-about');
     initScrollAnimations();
     initSlider();
+    initSparkles(); // Го повикуваме ефектот на светки
     if (window.ScrollTrigger) setTimeout(() => ScrollTrigger.refresh(), 400);
   });
 })();

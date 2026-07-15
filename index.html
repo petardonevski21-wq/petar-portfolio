@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Petar Donevski Portfolio</title>
-    <link rel="icon" href="./images/favicon-16x16.png">
+    <link class="icon" href="./images/favicon-16x16.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;600&family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js" ></script> 
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
@@ -24,30 +24,41 @@
         </div>
     </div>
 
-    <nav id="full-menu">
-        <button class="close-menu">X</button>
-        <div class="menu-left">
-            <div class="v-marquee-col col-up">
-                <div class="v-marquee-inner">
-                    <div class="v-text">Petar Donevski • </div>
-                    <div class="v-text">Petar Donevski • </div>
+<nav id="full-menu">
+        <button class="close-menu" id="close-btn">X</button>
+        
+        <div class="menu-center-wrapper">
+            <ul class="nav-links">
+                <li>
+                    <a href="#hero" class="roll-link" id="nav-home">HOME</a>
+                    <span class="num">01</span>
+                </li>
+                <li>
+                    <a href="./proekti/index.html" class="roll-link" id="nav-work">WORK</a>
+                    <span class="num">02</span>
+                </li>
+                <li>
+                    <a href="#contact" class="roll-link" id="nav-contact">CONTACT</a>
+                    <span class="num">03</span>
+                </li>
+                <li>
+                    <a href="#about" class="roll-link" id="nav-about">ABOUT</a>
+                    <span class="num">04</span>
+                </li>
+            </ul>
+
+            <div class="menu-logo-wrapper">
+                <div class="laurel-wreath">
+                    <span class="logo-icon">( 🌐 )</span> 
                 </div>
-            </div>
-            <div class="v-marquee-col col-down">
-                <div class="v-marquee-inner">
-                    <div class="v-text">Web Development • Web Design • UX&UI • </div>
-                    <div class="v-text">Web Development • Web Design • UX&UI • </div>
-                </div>
+                <div class="menu-logo-text">PETAR DONEVSKI SINCE 2024</div>
             </div>
         </div>
 
-        <div class="menu-right">
-            <ul class="nav-links">
-                <li><a href="#hero" class="roll-link" id="nav-home">HOME</a><span class="num">01</span></li>
-                <li><a href="#work" class="roll-link" id="nav-work">Work</a><span class="num">02</span></li>
-                <li><a href="#contact" class="roll-link" id="nav-contact">Contact</a><span class="num">03</span></li>
-                <li><a href="#about" class="roll-link" id="nav-about">About</a><span class="num">04</span></li>
-            </ul>
+        <div class="menu-socials">
+            <a href="https://github.com/petardonevski21-wq" target="_blank">GITHUB</a>
+            <a href="https://www.linkedin.com/in/petar-donevski-856671417/" target="_blank">LINKEDIN</a>
+            <a href="https://www.instagram.com/petardonevskii/" target="_blank">INSTAGRAM</a>
         </div>
     </nav>
 
@@ -234,7 +245,6 @@
         </div>
     </section>
         
-    <!-- ПРЕМИУМ АНИМИРАНА ПОЗАДИНА -->
     <canvas id="premium-bg-canvas"></canvas>
 
 </body>

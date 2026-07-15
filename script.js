@@ -45,14 +45,14 @@ const ctx = premiumCanvas.getContext('2d');
 
 // Лесна конфигурација за визуелниот ефект
 const BG_CONFIG = {
-    linesCount: 34,           // Број на вертикални линии
-    nodesCount: 65,           // Вкупен број на светлосни точки
-    nodeSizeMin: 3,           // Најмала точка
-    nodeSizeMax: 5,           // Најголема точка
-    animationSpeed: 1.2,      // Брзина на движење
-    lineOpacity: 0.08,        // Провидност на линиите (0.08 = многу суптилно)
-    glowIntensity: 12,        // Интезитет на сјај (Blur/Glow)
-    nodeColor: '#ffffff'      // Боја на точките
+    linesCount: 34,           
+    nodesCount: 65,           
+    nodeSizeMin: 3,           
+    nodeSizeMax: 5,           
+    animationSpeed: 1.2,      
+    lineOpacity: 0.08,        
+    glowIntensity: 12,        
+    nodeColor: '#ffffff'      
 };
 
 let width, height;
@@ -67,19 +67,15 @@ class LightNode {
     }
 
     reset(initial = false) {
-        // Закачи точка за рандом линија
         this.lineIndex = Math.floor(Math.random() * BG_CONFIG.linesCount);
         this.size = BG_CONFIG.nodeSizeMin + Math.random() * (BG_CONFIG.nodeSizeMax - BG_CONFIG.nodeSizeMin);
         
-        // 50% шанс да оди нагоре, 50% надоле + рандомизација на брзина
         let direction = Math.random() > 0.5 ? 1 : -1;
         let baseSpeed = 0.2 + Math.random() * 1.5; 
         this.speed = baseSpeed * direction * BG_CONFIG.animationSpeed;
         
-        // Рандомизација на јачината на светлината
         this.opacity = 0.3 + Math.random() * 0.7;
 
-        // Ако е почетно лоадирање распрскај ги низ екранот, инаку почекај надвор од екран
         if (initial) {
             this.y = Math.random() * height;
         } else {
@@ -92,11 +88,8 @@ class LightNode {
         if (prefersReducedMotion) return;
         
         this.y += this.speed;
-        
-        // Секогаш ја прати позицијата на линијата за време на resize
         this.x = linesX[this.lineIndex] || 0; 
 
-        // Мазно респавнирање кога ќе излезе надвор од екранот
         const offscreenOffset = (this.size / 2) + BG_CONFIG.glowIntensity + 10;
         
         if (this.speed > 0 && this.y > height + offscreenOffset) {
@@ -114,7 +107,6 @@ class LightNode {
         ctx.shadowColor = `rgba(255, 255, 255, ${this.opacity})`;
         ctx.fill();
         
-        // Ресетирање на сјајот за да не се префрли на линиите
         ctx.shadowBlur = 0;
     }
 }
@@ -127,7 +119,6 @@ function initGrid() {
         linesX.push(i * spacing);
     }
     
-    // Синхронизација или иницијализација на точките
     if (nodes.length === 0) {
         for (let i = 0; i < BG_CONFIG.nodesCount; i++) {
             nodes.push(new LightNode());
@@ -151,10 +142,9 @@ function resizeCanvas() {
 function drawFrame() {
     ctx.clearRect(0, 0, width, height);
 
-    // Цртање на мрежата од вертикални линии
     ctx.beginPath();
     for (let i = 0; i < linesX.length; i++) {
-        let x = Math.round(linesX[i]) + 0.5; // +0.5 за најчисти остри линии (crisp 1px stroke)
+        let x = Math.round(linesX[i]) + 0.5; 
         ctx.moveTo(x, 0);
         ctx.lineTo(x, height);
     }
@@ -162,7 +152,6 @@ function drawFrame() {
     ctx.lineWidth = 1;
     ctx.stroke();
 
-    // Цртање на анимираните точки
     nodes.forEach(node => {
         node.update();
         node.draw();
@@ -179,7 +168,6 @@ function animateCanvas() {
     requestAnimationFrame(animateCanvas);
 }
 
-// Оптимизирано слушање на настани
 window.addEventListener('resize', resizeCanvas);
 document.addEventListener('visibilitychange', () => {
     if (!document.hidden && !isAnimating && !prefersReducedMotion) {
@@ -474,7 +462,7 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     });
 }
 
-function applyHoverAnimation(buttonId) {
+function applyHoverAnimation(buttonId, hoverColor) {
     const btn = document.getElementById(buttonId);
     if (!btn) return;
 
@@ -503,6 +491,9 @@ function applyHoverAnimation(buttonId) {
         cloneChar.style.transform = 'translate(-100%, 100%)'; 
         cloneChar.style.transition = 'transform 0.3s cubic-bezier(0.76, 0, 0.24, 1)';
         cloneChar.style.transitionDelay = `${i * 0.020}s`;
+        if (hoverColor) {
+            cloneChar.style.color = hoverColor;
+        }
 
         charContainer.appendChild(origChar);
         charContainer.appendChild(cloneChar);
@@ -521,10 +512,11 @@ function applyHoverAnimation(buttonId) {
 }
 applyHoverAnimation('open-btn');
 applyHoverAnimation('submit-btn');
-applyHoverAnimation('nav-home');
-applyHoverAnimation('nav-work');
-applyHoverAnimation('nav-contact');
-applyHoverAnimation('nav-about');
+applyHoverAnimation('nav-home', '#D2FF00');
+applyHoverAnimation('nav-work', '#D2FF00');
+applyHoverAnimation('nav-contact', '#D2FF00');
+applyHoverAnimation('nav-about', '#D2FF00');
+applyHoverAnimation('close-btn', '#D2FF00');
 
 function initSectionSixAnimation() {
     let mm = gsap.matchMedia();
