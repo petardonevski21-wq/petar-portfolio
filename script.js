@@ -387,10 +387,13 @@ function initGSAP() {
             }
         });
         
-        // ЕДИНСТВЕНА ПРОМЕНА - Текстот се појавува кога се скрола
+        // Текстот се појавува кога се скрола
         heroTlMobile.to(".section-two", { opacity: 1, duration: 0.1 }, 0);
-        
         heroTlMobile.to(".hero-section", { scale: 0.6, borderRadius: "30px", boxShadow: "0px 30px 60px rgba(0,0,0,0.6)", duration: 1, ease: "power2.inOut" }, 0);
+        
+        // ДОДАДЕНО: Логото станува бело кога ќе се одзумира сликата (како на десктоп)
+        heroTlMobile.to("#main-logo", { color: "#FFFFFF", duration: 0.25, ease: "expo.out" }, 0.35);
+        
         heroTlMobile.to(".reveal-text", { opacity: 1, letterSpacing: "5px", duration: 0.4, ease: "power2.out" }, 0.3);
 
         const aboutTlMobile = gsap.timeline({
@@ -442,8 +445,21 @@ function initGSAP() {
             ]
         });
         
+        // ДОДАДЕНО: Логото станува црно во секцијата за Skills (како на десктоп)
+        gsap.to("#main-logo", {
+            color: "#1A1A1A",
+            immediateRender: false,
+            scrollTrigger: {
+                trigger: ".section-four",
+                start: "top 20%",
+                toggleActions: "play none none reverse"
+            }
+        });
+
+        // ПОПРАВЕНО: Логото станува бело во секцијата за Проекти (како на десктоп)
         gsap.to("#main-logo", {
             color: "#FFFFFF",
+            immediateRender: false,
             scrollTrigger: {
                 trigger: ".section-five",
                 start: "top 20%",
