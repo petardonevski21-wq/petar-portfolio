@@ -72,7 +72,7 @@ header {
 .logo {
     font-family: 'Bodoni Moda', serif;
     font-optical-sizing: auto;
-    font-size: 1.2rem;
+    font-size: 1.5rem; /* Зголемено од 1.2rem */
     font-weight: 400;
     text-transform: uppercase;
     line-height: 1.10;
@@ -92,8 +92,10 @@ header {
 
 .menu-btn {
     background-color: var(--neon-green); color: var(--text-dark);
-    border: none; padding: 0.8rem 2rem; border-radius: 20px 0px 0px 0px;
-    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem;
+    border: 2px solid #000000; /* Додаден црн stroke */
+    padding: 1rem 2.5rem; /* Зголемено */
+    border-radius: 20px 0px 0px 0px;
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem; /* Зголемено */
     cursor: pointer; pointer-events: auto; transition: transform 0.3s ease;
     z-index: 101;
 }
@@ -394,8 +396,8 @@ header {
     body { font-size: 14px; }
     .sidebar-indicator { display: none !important; }
     header { padding: 1.5rem; }
-    .logo { font-size: 1.1rem; color: #000000; }
-    .menu-btn { padding: 0.6rem 1.5rem; border-radius: 14px 0px 0px 0px; color: #000000 !important; }
+.logo { font-size: 1.3rem; color: #000000; } /* Зголемено од 1.1rem */
+   .menu-btn { padding: 0.8rem 2rem; font-size: 1rem; border-radius: 14px 0px 0px 0px; border: 2px solid #000000; color: #000000 !important; } /* Зголемено и додаден stroke */
     .preloader-text { font-size: 2.5rem; }
     
     .roll-link { font-size: 12vw !important; }

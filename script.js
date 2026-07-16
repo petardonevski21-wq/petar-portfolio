@@ -204,7 +204,8 @@ function initGSAP() {
         heroTl.to(".hero-image", { filter: "grayscale(100%)", duration: 1, ease: "power2.inOut" }, 0);
         heroTl.to(".section-two", { opacity: 1, duration: 0.1 }, 0);
         heroTl.to(".hero-section", { scale: 0.6, borderRadius: "30px", boxShadow: "0px 30px 60px rgba(0,0,0,0.6)", duration: 1, ease: "power2.inOut" }, 0);
-        heroTl.to("#main-logo", { color: "#FFFFFF", duration: 0.25, ease: "expo.out" }, 0.35);
+       heroTl.to("#main-logo", { fontSize: "1.2rem", color: "#FFFFFF", duration: 1, ease: "power2.inOut" }, 0);
+heroTl.to("#open-btn", { padding: "0.8rem 2rem", fontSize: "0.9rem", borderColor: "transparent", borderWidth: "0px", duration: 1, ease: "power2.inOut" }, 0);
         heroTl.to(".scroll-down", { opacity: 0, duration: 0.1 }, 0);
         heroTl.to(".reveal-text", { opacity: 1, letterSpacing: "5px", duration: 0.4, ease: "power2.out" }, 0.3); 
         heroTl.to(".line-ind", { backgroundColor: "#FFFFFF", duration: 0.25, ease: "expo.out" }, 0.35);
@@ -392,7 +393,8 @@ function initGSAP() {
         heroTlMobile.to(".hero-section", { scale: 0.6, borderRadius: "30px", boxShadow: "0px 30px 60px rgba(0,0,0,0.6)", duration: 1, ease: "power2.inOut" }, 0);
         
         // ДОДАДЕНО: Логото станува бело кога ќе се одзумира сликата (како на десктоп)
-        heroTlMobile.to("#main-logo", { color: "#FFFFFF", duration: 0.25, ease: "expo.out" }, 0.35);
+       heroTlMobile.to("#main-logo", { fontSize: "1.1rem", color: "#FFFFFF", duration: 1, ease: "power2.inOut" }, 0);
+heroTlMobile.to("#open-btn", { padding: "0.6rem 1.5rem", fontSize: "0.9rem", borderColor: "transparent", borderWidth: "0px", duration: 1, ease: "power2.inOut" }, 0);
         
         heroTlMobile.to(".reveal-text", { opacity: 1, letterSpacing: "5px", duration: 0.4, ease: "power2.out" }, 0.3);
 
